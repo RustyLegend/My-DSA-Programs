@@ -4,82 +4,104 @@
 
 struct node
 {
+    int coefficient;
     int exponent;
-    float coefficient;
-    struct node *next;
-}*head1 = NULL , *head2 = NULL , *temp = NULL , *current1 = NULL , *current2 = NULL;
+    struct node* next;
+}*head1 = NULL , *head2 = NULL , *ptr1 = NULL , *ptr2 = NULL , *temp = NULL , *head3 = NULL , *ptr3 = NULL;
 
-struct node newnode()
+struct node* newLinkedList(struct node* head , struct node* ptr , int NOT)
 {
-    temp = (struct node*)malloc(sizeof(struct node));
-
+    while (NOT>0)
+    {
+        temp = (struct node*)malloc(sizeof(struct node));
+        printf("Enter coefficient: ");
+        scanf("%d" , &temp->coefficient);
+        temp->exponent = NOT-1;
+        temp->next = NULL;
+        if(head == NULL) head = temp;
+        else ptr->next = temp;
+        ptr = temp;
+        NOT--;
+    }
+    return head;
 }
+
 int main()
 {
-    char ch = 'Y';
-    int terms_no1 = 0;
-    int terms_no2 = 0;
-    printf("---------FIRST POLYNOMIAL--------\n");
-    while (ch == 'Y' || ch == 'y')
+    int numberOfTerms;
+    printf("--------------- FIRST POLYNOMIAL ---------------\n");
+    printf("Enter number of terms you want to enter: ");
+    scanf("%d",&numberOfTerms);
+    head1 = newLinkedList(head1 , ptr1 , numberOfTerms);
+
+    printf("\n--------------- SECOND POLYNOMIAL ---------------\n");
+    printf("Enter number of terms you want to enter: ");
+    scanf("%d",&numberOfTerms);
+    head2 = newLinkedList(head2 , ptr2 , numberOfTerms);
+    ptr1 = head1;
+    ptr2 = head2;
+    while (ptr1 != NULL && ptr2 != NULL)
     {
-        temp = (struct node*)malloc(sizeof(struct node));
-        if(temp == NULL) printf("Memory allocation failed");
-        printf("Enter coefficient: ");
-        scanf("%f",&temp->coefficient);
-        temp->next = NULL;
-        if(head1 == NULL) head1 = temp;
-        else current1->next = temp;
-        terms_no1++;
-        current1 = temp;
-        printf("Do you wish to continue (y/n): ");
-        scanf(" %c",&ch);
-    }
-    
-    printf("\n---------SECOND POLYNOMIAL--------\n");
-    ch = 'Y';
-    while (ch == 'Y' || ch == 'y')
-    {
-        temp = (struct node*)malloc(sizeof(struct node));
-        if(temp == NULL) printf("Memory allocation failed");
-        printf("Enter coefficient: ");
-        scanf("%f",&temp->coefficient);
-        temp->next = NULL;
-        if(head2 == NULL) head2 = temp;
-        else current2->next = temp;
-        terms_no2++;
-        current2 = temp;
-        printf("Do you wish to continue (y/n): ");
-        scanf(" %c",&ch);
+        int sum;
+        if(ptr1->exponent == ptr2->exponent)
+        {
+            sum = ptr1->coefficient + ptr2->coefficient;
+            temp = (struct node*)malloc(sizeof(struct node));
+            temp->coefficient = sum;
+            temp->exponent = ptr1->exponent;
+            temp->next = NULL;
+            ptr1 = ptr1->next;
+            ptr2 = ptr2->next;
+        }
+        else if(ptr1->exponent > ptr2->exponent)
+        {
+            sum = ptr1->coefficient;
+            temp = (struct node*)malloc(sizeof(struct node));
+            temp->coefficient = sum;
+            temp->exponent = ptr1->exponent;
+            temp->next = NULL;
+            ptr1 = ptr1->next;
+        }
+        else
+        {
+            sum = ptr2->coefficient;
+            temp = (struct node*)malloc(sizeof(struct node));
+            temp->coefficient = sum;
+            temp->exponent = ptr2->exponent;
+            temp->next = NULL;
+            ptr2 = ptr2->next;
+        }
+        if(head3 == NULL) head3 = temp;
+        else ptr3->next = temp;
+        ptr3 = temp;
     }
 
-    printf("1st polynomial:\n");
-    current1 = head1;
-    terms_no1--;
-    while (current1!=NULL)
+    //Printing
+    printf("Polynomial 1 : ");
+    ptr1 = head1;
+    while (ptr1 != NULL)
     {
-        current1->exponent = terms_no1;
-        printf("%.fx^%d",current1->coefficient,current1->exponent);
-        current1 = current1->next;
-        terms_no1--;
+        if(ptr1->exponent != 0) printf("%dx^%d + " , ptr1->coefficient , ptr1->exponent);
+        else printf("%d" , ptr1->coefficient);
+        ptr1 = ptr1->next;
     }
     printf("\n");
-    printf("2nd polynomial\n");
-    current2 = head2;
-    terms_no2--;
-    while (current2!=NULL)
+    printf("Polynomial 2 : ");
+    ptr2 = head2;
+    while (ptr2 != NULL)
     {
-        current2->exponent = terms_no2;
-        printf("%.fx^%d",current2->coefficient,current2->exponent);
-        current2 = current2->next;
-        terms_no2--;
+        if(ptr2->exponent != 0) printf("%dx^%d + " , ptr2->coefficient , ptr2->exponent);
+        else printf("%d" , ptr2->coefficient);
+        ptr2 = ptr2->next;
     }
-
-    while (head1 != NULL && head2 !=NULL)
+    printf("\n");
+    printf("Sum: ");
+    ptr3 = head3;
+    while (ptr3 != NULL)
     {
-        if(head1->exponent == head2->exponent)
-        {
-            temp = (struct node*)malloc(sizeof(struct node));
-            
-        }
+        if(ptr3->exponent != 0) printf("%dx^%d + " , ptr3->coefficient , ptr3->exponent);
+        else printf("%d",ptr3->coefficient);
+        ptr3 = ptr3->next;
     }
+    
 }

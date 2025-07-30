@@ -40,7 +40,7 @@ int main()
     int insertChoice;
     while (1)
     {
-        printf("1 - Insert at beginning\n2 - Insert at ending\n3 - Insert at a position\n4 - Print the final list\n");
+        printf("1 - Insert at beginning\n2 - Insert at ending\n3 - Insert at a position\n4 - Delete a node\n5 - Print the final list\n");
         scanf("%d",&insertChoice);
         if(insertChoice == 1)
         {
@@ -108,6 +108,53 @@ int main()
             }
         }
         else if(insertChoice == 4)
+        {
+            printf("1 - Delete node at beginning\n2 - Delete node at ending\n3 - Delete at an intermediate position\n");
+            scanf("%d",&insertChoice);
+            if(insertChoice == 1)
+            {
+                current = head;
+                head = head->next;
+                head->prev = NULL;
+                free(current);
+                numberOfNodes--;
+            }
+            else if (insertChoice == 2)
+            {
+                current = tail;
+                tail = tail->prev;
+                tail->next = NULL;
+                free(current);
+                numberOfNodes--;
+            }
+            else if (insertChoice == 3)
+            {
+                int position;
+                printf("Preview of the list: ");
+                current = head;
+                while (current != NULL)
+                {
+                    printf("%d " , current->data);
+                    current = current->next;
+                }
+                printf("\nEnter the position of the element you want to delete (2 to %d): ",numberOfNodes-1);
+                scanf("%d",&position);
+                if(position > 1 && position < numberOfNodes)
+                {
+                    current = head;
+                    for(int i = 1 ; i < position ; i++) current = current->next;
+                    current->prev->next = current->next;
+                    current->next->prev = current->prev;
+                    free(current);
+                    numberOfNodes--;
+                }
+                else
+                {
+                    printf("Please enter a valid position");
+                }
+            }
+        }
+        else if(insertChoice == 5)
         {
             break;
         }

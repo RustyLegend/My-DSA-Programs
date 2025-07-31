@@ -4,15 +4,14 @@
 
 struct node
 {
-    int index;
     int data;
     struct node *next;
-} *head = NULL, *temp = NULL, *temp2 = NULL, *current = NULL;
+} *head = NULL, *temp = NULL, *current = NULL;
 
 
 int main()
 {
-    int i=0;
+    int i =0;
     char ch = 'Y';
 
 
@@ -28,7 +27,6 @@ int main()
         printf("Enter data: ");
         scanf("%d",&temp -> data);
         temp -> next = NULL;
-        temp -> index = i;
         if (head  == NULL)
         {
             head = temp;
@@ -79,19 +77,15 @@ int main()
             printf("\nAt what position you want to add: ");
             scanf("%d",&position);
             printf("\n");
-            if (position <= i)
+            if (position > 1 && position <= i)
             {
                 temp = (struct node*)malloc(sizeof(struct node));
                 printf("Enter the value you want to add: ");
                 scanf("%d",&temp -> data);
                 current = head;
-                while (current->index != position-1)
-                {
-                    current = current -> next;
-                }
-                temp2 = current -> next;
-                current -> next = temp;
-                temp -> next = temp2;
+                for (int i = 1 ; i <position-1 ; i++) current = current->next;
+                temp->next = current->next;
+                current->next = temp;
             }
             else
             {
@@ -161,6 +155,5 @@ int main()
     }
     free(head);
     free(temp);
-    free(temp2);
     free(current);
 }

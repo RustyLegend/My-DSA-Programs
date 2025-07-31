@@ -56,7 +56,7 @@ int main()
     int choice;
     while (1)
     {
-        printf("1 - Insert at beginning\n2 - Insert at the end\n3 - Insert at an intermediate position\n4 - Delete an element\n5 - Print the final list\n");
+        printf("\n1 - Insert at beginning\n2 - Insert at the end\n3 - Insert at an intermediate position\n4 - Delete an element\n5 - Print the final list\n");
         scanf("%d",&choice);
         if(choice == 1)
         {
@@ -86,7 +86,7 @@ int main()
             int position;
             printf("Preview of the list: ");
             displayNode();
-            printf("Enter the position you want to insert at (2 to %d): ",numberOfNodes);
+            printf("Enter the position you want to insert at: ");
             scanf("%d",&position);
             if (position > 1 && position <= numberOfNodes)
             {
@@ -95,6 +95,29 @@ int main()
                 for (int i = 1 ; i < position-1 ; i++) current = current->next;
                 temp -> next = current ->next;
                 current->next = temp;
+            }
+            else if(position == 1)
+            {
+                temp = nodeCreator();
+                temp->next = head;
+                current = head;
+                while (current -> next != head)
+                {
+                    current = current->next;
+                }
+                head = temp;
+                current->next = head;
+            }
+            else if(position == numberOfNodes+1)
+            {
+                temp = nodeCreator();
+                current = head;
+                while (current->next !=head)
+                {
+                    current = current->next;
+                }
+                current->next = temp;
+                temp->next = head;
             }
             else printf("Invalid position.");
         }
@@ -109,7 +132,7 @@ int main()
                 current->next = head->next;
                 free(head);
                 head = current->next;
-                numberOfNodes -= 2;
+                numberOfNodes--;
             }
             else if (choice == 2)
             {
@@ -117,15 +140,15 @@ int main()
                 while (current->next->next != head) current = current->next;
                 free(current->next);
                 current->next = head;
-                numberOfNodes -= 2;
+                numberOfNodes--;
             }
             else if (choice == 3)
             {
                 int position;
                 displayNode();
-                printf("Enter the position of the element you want to delete (2 to %d): ",numberOfNodes-1);
+                printf("Enter the position of the element you want to delete: ");
                 scanf("%d",&position);
-                if (position > 1 && position < numberOfNodes)
+                if (position > 1 && position <= numberOfNodes)
                 {
                     current = head;
                     for (int i = 1 ; i < position - 1 ; i++) current = current->next;
@@ -133,12 +156,23 @@ int main()
                     current->next = del->next;
                     free(del);
                     del = NULL;
-                    numberOfNodes -= 2;
+                    numberOfNodes--;
                 }
+                else if (position == 1)
+                {
+                    current = head;
+                    while (current->next != head) current = current->next;
+                    current->next = head->next;
+                    free(head);
+                    head = current->next;
+                    numberOfNodes--;
+                }
+                else printf("Invalid position.");
             }
         }
         else if (choice == 5)
         {
+            printf("\nNumber of nodes: %d\n",numberOfNodes);
             displayNode();
             break;
         }

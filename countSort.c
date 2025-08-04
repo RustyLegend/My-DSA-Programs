@@ -27,8 +27,19 @@ int main()
 
     int max = maximumNumberOfAnArray(arr,numberOfElements);
     max++;
-    int countArray[max];
-    for (int i = 0 ; i < max ; i++) countArray[i] = 0;
-    for (int i = 0 ; i < numberOfElements ; i++) countArray[arr[i]]++;
+    int count[max];
+
+    for(int i = 0 ; i < max ; i++) count[i] = 0;
+    for(int i = 0 ; i < numberOfElements ; i++) count[arr[i]]++;
+    for(int i = 1 ; i < max ; i++) count[i] = count[i] + count[i-1];
     
+    int sortedArray[numberOfElements];
+    for(int i = numberOfElements-1 ; i>=0 ; i--)
+    {
+        sortedArray[count[arr[i]] - 1] = arr[i];
+        count[arr[i]]--;
+    }
+
+    printf("The elements in a sorted manner is: ");
+    for(int i = 0; i<numberOfElements ; i++) printf("%d ",sortedArray[i]);
 }
